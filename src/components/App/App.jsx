@@ -14,11 +14,10 @@ const App = () => {
   const token = useSelector(state => state.auth.token);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
-  console.log(isLoggedIn);
   useEffect(() => {
-    if (!token) return;
+    if (!token || isLoggedIn) return;
     dispatch(refreshUser());
-  }, [dispatch, token]);
+  }, [dispatch, token, isLoggedIn]);
 
   const logOut = () => {
     dispatch(logoutUser());

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { registerUser } from 'redux/auth/operations';
 
 const RegisterForm = () => {
@@ -7,11 +8,7 @@ const RegisterForm = () => {
   const submitForm = evt => {
     evt.preventDefault();
     const form = evt.currentTarget;
-    console.log(
-      form.elements.userName.value,
-      form.elements.userEmail.value,
-      form.elements.userPassword.value
-    );
+
     dispatch(
       registerUser({
         name: form.elements.userName.value,
@@ -21,6 +18,9 @@ const RegisterForm = () => {
     );
     form.reset();
   };
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  if (isLoggedIn) return <Navigate to="/contacts" />;
   return (
     <main>
       <h1>Register Your Account</h1>

@@ -1,9 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { loginUser } from 'redux/auth/operations';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const submitForm = evt => {
     evt.preventDefault();
     const form = evt.currentTarget;
@@ -15,6 +18,8 @@ const LoginForm = () => {
     );
     form.reset();
   };
+
+  if (isLoggedIn) return <Navigate to="/contacts" />;
   return (
     <main>
       <h1>Login Into Your Account</h1>
