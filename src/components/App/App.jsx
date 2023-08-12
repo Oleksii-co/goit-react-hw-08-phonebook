@@ -1,19 +1,56 @@
-import ContactForm from 'components/ContactForm/ContactForm';
-import ContactList from 'components/ContactList/ContactList';
-import Filter from 'components/Filter/Filter';
+import { Suspense, lazy, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes, NavLink } from 'react-router-dom';
+import { logoutUser, refreshUser } from 'redux/auth/operations';
 
-import { Layout } from 'components/Layout/Layout';
+const HomePage = lazy(() => import('pages/HomePage'));
+const RegisterPage = lazy(() => import('pages/RegisterPage'));
+const LoginPage = lazy(() => import('pages/LoginPage'));
+const ContactsPage = lazy(() => import('pages/ContactsPage'));
 
 const App = () => {
-  return (
-    <Layout>
-      <h1>Phonebook</h1>
-      <ContactForm />
+  const dispatch = useDispatch();
 
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </Layout>
+  const token = useSelector(state => state.auth.token);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  console.log(isLoggedIn);
+  useEffect(() => {
+    if (!token) return;
+    dispatch(refreshUser());
+  }, [dispatch, token]);
+
+  const logOut = () => {
+    dispatch(logoutUser());
+  };
+  return (
+    <>
+      <header>
+        <nav>
+          <NavLink to="/">Home</NavLink>
+          {isLoggedIn ? (
+            <>
+              <NavLink to="/contacts">Contacts</NavLink>{' '}
+              <button onClick={logOut}>Log out</button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login">Log in</NavLink>
+              <NavLink to="/register">Register</NavLink>
+            </>
+          )}
+        </nav>
+      </header>
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contacts" element={<ContactsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </Suspense>
+    </>
   );
 };
 

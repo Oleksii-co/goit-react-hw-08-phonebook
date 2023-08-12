@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import contactList from './ContactList.module.css';
-import { deleteContact, fetchContacts } from 'redux/operations';
+import { deleteContact, fetchContacts } from 'redux/contacts/operations';
 import { useEffect } from 'react';
 
 const ContactList = () => {
@@ -23,7 +23,7 @@ const ContactList = () => {
 
   return (
     <>
-     {isLoading && <p className={contactList.loading}>Loading data...</p>}
+      {isLoading && <p className={contactList.loading}>Loading data...</p>}
       {items.length === 0 && !isLoading && !error && (
         <p className={contactList.noContacts}>There are no contacts</p>
       )}
