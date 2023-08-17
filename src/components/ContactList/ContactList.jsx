@@ -29,10 +29,10 @@ const ContactList = () => {
       )}
       {error && <p className={contactList.error}>{error}</p>}
       <ol className={contactList.contactList}>
-        {filterContacts.map(({ id, tel, name }) => {
+        {filterContacts.map(({ id, number, name }) => {
           return (
             <li key={id}>
-              {name}: {tel}
+              {name}: {number}
               <button type="button" onClick={() => onDeleteContact(id)}>
                 Delete
               </button>
@@ -46,6 +46,4 @@ const ContactList = () => {
 
 export default ContactList;
 
-// ContactList.propTypes = {
-//   deleteContact: PropTypes.func,
-// };
+

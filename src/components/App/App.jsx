@@ -1,7 +1,9 @@
+import Header from 'components/Header/Header';
+import PrivateRoute from 'components/PrivateRoute/PrivateRoute';
 import { Suspense, lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Routes, NavLink } from 'react-router-dom';
-import { logoutUser, refreshUser } from 'redux/auth/operations';
+import { Route, Routes } from 'react-router-dom';
+import { refreshUser } from 'redux/auth/operations';
 
 const HomePage = lazy(() => import('pages/HomePage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage'));
@@ -19,32 +21,22 @@ const App = () => {
     dispatch(refreshUser());
   }, [dispatch, token, isLoggedIn]);
 
-  const logOut = () => {
-    dispatch(logoutUser());
-  };
   return (
     <>
-      <header>
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          {isLoggedIn ? (
-            <>
-              <NavLink to="/contacts">Contacts</NavLink>{' '}
-              <button onClick={logOut}>Log out</button>
-            </>
-          ) : (
-            <>
-              <NavLink to="/login">Log in</NavLink>
-              <NavLink to="/register">Register</NavLink>
-            </>
-          )}
-        </nav>
-      </header>
+      <Header />
 
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
+
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login">
+                <ContactsPage />{' '}
+              </PrivateRoute>
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
