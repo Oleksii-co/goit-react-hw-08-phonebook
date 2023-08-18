@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { registerUser } from 'redux/auth/operations';
 
+import { Header } from '../commonStyle.styled';
+
+import { Button } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input } from '@chakra-ui/react';
+
 const RegisterForm = () => {
   const dispatch = useDispatch();
   const submitForm = evt => {
@@ -23,21 +28,47 @@ const RegisterForm = () => {
   if (isLoggedIn) return <Navigate to="/contacts" />;
   return (
     <main>
-      <h1>Register Your Account</h1>
+      <Header>Register Your Account</Header>
+
       <form onSubmit={submitForm}>
-        <label>
-          <p>Username</p>
-          <input name="userName" type="text" required />
-        </label>
-        <label>
-          <p>Email</p>
-          <input name="userEmail" type="email" required />
-        </label>
-        <label>
-          <p>Password</p>
-          <input name="userPassword" type="password" required minLength={7} />
-        </label>
-        <button type="submit">Register</button>
+        <FormControl marginBottom="10px">
+          <FormLabel>Username</FormLabel>
+          <Input
+            name="userName"
+            type="text"
+            required
+            width="300px"
+            placeholder="Enter your Name"
+            variant="filled"
+          />
+        </FormControl>
+        <FormControl marginBottom="10px">
+          <FormLabel>Email address</FormLabel>
+          <Input
+            name="userEmail"
+            type="email"
+            required
+            width="300px"
+            placeholder="Enter your Email"
+            variant="filled"
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Password</FormLabel>
+          <Input
+            name="userPassword"
+            type="password"
+            required
+            minLength={7}
+            width="300px"
+            placeholder="Enter your Password"
+            variant="filled"
+          />
+        </FormControl>
+
+        <Button width="100px" type="submit" marginTop="20px" colorScheme="blue">
+          Log In
+        </Button>
       </form>
     </main>
   );

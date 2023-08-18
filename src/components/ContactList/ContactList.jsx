@@ -3,6 +3,9 @@ import contactList from './ContactList.module.css';
 import { deleteContact, fetchContacts } from 'redux/contacts/operations';
 import { useEffect } from 'react';
 
+import { DeleteIcon  } from '@chakra-ui/icons';
+import { Button } from '@chakra-ui/react';
+
 const ContactList = () => {
   const contactData = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.filter);
@@ -33,9 +36,16 @@ const ContactList = () => {
           return (
             <li key={id}>
               {name}: {number}
-              <button type="button" onClick={() => onDeleteContact(id)}>
-                Delete
-              </button>
+              <Button
+                onClick={() => onDeleteContact(id)}
+                height="100%"
+                width="100px"
+                type="submit"
+                colorScheme="blue"
+              >
+                <DeleteIcon 
+                padding='1px' /> Delete
+              </Button>
             </li>
           );
         })}
@@ -45,5 +55,3 @@ const ContactList = () => {
 };
 
 export default ContactList;
-
-

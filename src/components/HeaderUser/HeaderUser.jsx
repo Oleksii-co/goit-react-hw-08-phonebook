@@ -3,9 +3,12 @@ import React from 'react';
 import { logoutUser } from 'redux/auth/operations';
 import { useDispatch, useSelector } from 'react-redux';
 
-const HeaderUser = () => {
+import { Button } from '@chakra-ui/react';
 
-    const username = useSelector(state=> state.auth.user.email)
+import { Container ,Text } from './HeaderUser.styled';
+
+const HeaderUser = () => {
+  const username = useSelector(state => state.auth.user.email);
   const dispatch = useDispatch();
 
   const logOut = () => {
@@ -13,10 +16,12 @@ const HeaderUser = () => {
   };
 
   return (
-    <div>
-      <p>Welcome: {username}</p>
-      <button onClick={logOut}>Log out</button>{' '}
-    </div>
+    <Container>
+      <Text>Welcome: {username}</Text>
+      <Button marginLeft="10px" height='30px' width="100px" onClick={logOut} colorScheme="blue">
+      Log out
+      </Button>
+    </Container>
   );
 };
 

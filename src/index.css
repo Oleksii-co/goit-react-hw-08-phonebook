@@ -1,5 +1,6 @@
 @import-normalize; /* bring in normalize.css styles */
 
+
 h1,
 h2,
 h3,
@@ -24,6 +25,14 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+main{
+  margin-left: 40px;
+}
+header{
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 body {
